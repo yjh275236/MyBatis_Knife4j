@@ -1,0 +1,18 @@
+# 配置数据库连接信息
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.211.55.7:3307/hello_mp?characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 1234
+  # Redis的相关配置
+  data:
+    redis:
+      host: 10.211.55.7
+      port: 6380
+#  password: 1234
+
+# 能在测试时在控制台显示出sql语句
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
