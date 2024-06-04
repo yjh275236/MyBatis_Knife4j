@@ -164,4 +164,146 @@ public class User {
     private String email;
 }
 ```
+## 通用Mapper
+
+通用Mapper提供了通用的CRUD方法，使用它可以省去大量编写简单重复的SQL语句的工作，具体用法如下
+
+1. **创建Mapper接口**
+
+   创建`UserMapper`接口，并继承由Mybatis Plus提供的`BaseMapper<T>`接口，如下
+
+   ```java
+   @Mapper
+   public interface UserMapper extends BaseMapper<User> {
+   }
+   ```
+
+   **知识点**：
+
+   若Mapper接口过多，可不用逐一配置`@Mapper`注解，而使用`@MapperScan`注解指定包扫描路径进行统一管理，例如
+
+   ```java
+   @SpringBootApplication
+   @MapperScan("com.atguigu.hellomp.mapper")
+   public class HelloMpApplication {
+   
+       public static void main(String[] args) {
+           SpringApplication.run(HelloMpApplication.class, args);
+       }
+   }
+   ```
+
+2. **测试通用Mapper**
+
+   创建`userMapperTest`测试类型，内容如下
+
+   ```java
+   @SpringBootTest
+   class UserMapperTest {
+   
+       @Autowired
+       private UserMapper userMapper;
+   
+       @Test
+       public void testSelectList() {
+           List<User> users = userMapper.selectList(null);
+           users.forEach(System.out::println);
+       }
+   
+       @Test
+       public void testSelectById() {
+           User user = userMapper.selectById(1);
+           System.out.println(user);
+       }
+   
+       @Test
+       public void testInsert() {
+           User user = new User();
+           user.setName("zhangsan");
+           user.setAge(11);
+           user.setEmail("test@test.com");
+           userMapper.insert(user);
+       }
+   
+       @Test
+       public void testUpdateById() {
+           User user = userMapper.selectById(1);
+           user.setName("xiaoming");
+           userMapper.updateById(user);
+       }
+       
+       @Test
+       public void testDeleteById() {
+           userMapper.deleteById(1);
+       }
+   }
+   ```
+
+## 通用Service
+
+通用Service进一步封装了通用Mapper的CRUD方法，并提供了例如`saveOrUpdate`、`saveBatch`等高级方法。
+
+1. **创建Service接口**
+
+   创建`UserService`，内容如下
+
+   ```java
+   public interface UserService extends IService<User> {
+   }
+   ```
+
+2. **创建Service实现类**
+
+   创建`UserServiceImpl`，内容如下
+
+   ```java
+   @Service
+   public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+   }
+   ```
+
+3. **测试通用Service**
+
+   创建`UserServiceImplTest`测试类，内容如下
+
+   ```java
+   @SpringBootTest
+   class UserServiceImplTest {
+   
+   
+       @Autowired
+       private UserService userService;
+   
+       @Test
+       public void testSaveOrUpdate() {
+           User user1 = userService.getById(2);
+           user1.setName("xiaohu");
+   
+           User user2 = new User();
+           user2.setName("lisi");
+           user2.setAge(27);
+           user2.setEmail("lisi@email.com");
+           userService.saveOrUpdate(user1);
+           userService.saveOrUpdate(user2);
+       }
+   
+   
+       @Test
+       public void testSaveBatch() {
+           User user1 = new User();
+           user1.setName("dongdong");
+           user1.setAge(49);
+           user1.setEmail("dongdong@email.com");
+   
+           User user2 = new User();
+           user2.setName("nannan");
+           user2.setAge(29);
+           user2.setEmail("nannan@email.com");
+   
+           List<User> users = List.of(user1, user2);
+           userService.saveBatch(users);
+       }
+   }
+   ```
+
 

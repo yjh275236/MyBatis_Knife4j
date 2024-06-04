@@ -21,6 +21,37 @@ class UserMapperTest {
         users.forEach(System.out::println);
 //        users.forEach(name -> System.out.println(name));
     }
+    //  根据id查询的功能
+    @Test
+    public void testSelectById(){
+        User user = userMapper.selectById(1);
+        System.out.println(user);
+    }
+    //因为设置ID自增所以不需要手动设置ID
+    //插入信息
+    @Test
+    public void testInsert() {
+        User user = new User();
+        user.setName("yjh");
+        user.setAge(18);
+        user.setEmail("130@qq.com");
+        userMapper.insert(user);
+    }
+
+    //根据id修改信息
+    @Test
+    public void testUpdataById(){
+        User user = userMapper.selectById(1);
+        user.setName("xiaohong");
+        userMapper.updateById(user);
+    }
+
+    //根据ID删除
+    @Test
+    public void testDeleteById(){
+        userMapper.deleteById(1);
+
+    }
 
 
 
