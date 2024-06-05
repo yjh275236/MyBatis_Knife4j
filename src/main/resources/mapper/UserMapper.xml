@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--编写与接口的对应关系-->
+<mapper namespace="com.hellomp.mapper.UserMapper">
+<!--    id要与接口的方法一致-->
+    <select id="selectUserPage" resultType="com.hellomp.entity.User">
+        select *
+        from user
+    </select>
+</mapper>

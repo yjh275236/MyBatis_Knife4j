@@ -40,6 +40,7 @@ public class WrapperTest {
         queryWrapper5.lt("age", 20).or().gt("age", 30);
 
         //邮箱域名为baomidou.com且年龄小于30或大于40且的用户
+        //where email like '%baomidou.com%'and (age <30 or age >40)
         QueryWrapper<User> queryWrapper6 = new QueryWrapper<>();
         queryWrapper6.like("email", "baomidou.com").and(wrapper -> wrapper.lt("age", 30).or().gt("age", 40));
 
