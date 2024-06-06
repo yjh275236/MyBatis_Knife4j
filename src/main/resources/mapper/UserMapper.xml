@@ -2,11 +2,20 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--编写与接口的对应关系-->
 <mapper namespace="com.hellomp.mapper.UserMapper">
-<!--    id要与接口的方法一致-->
+
+    <resultMap id="BaseResultMap" type="com.hellomp.entity.User">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="age" column="age" jdbcType="INTEGER"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,age,
+        email
+    </sql>
     <select id="selectUserPage" resultType="com.hellomp.entity.User">
-        select *
-        from user
+        select * from user
     </select>
 </mapper>
